@@ -11,6 +11,7 @@ import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 import static com.neoris.turnosrotativos.utils.EmailUtils.esEmailValido;
@@ -25,10 +26,11 @@ public class EmpleadoServiceImpl implements EmpleadoService{
     EmpleadoRepository empleadoRepository;
 
     @Override
+    @Transactional
     public EmpleadoDTOResponse createEmpleado(EmpleadoDTO empleadoDTO) {
     //CHEQUEO QUE LA EDAD NO SEA MENOR A 18 AÑOS
         int edad= DateUtils.calcularEdad(empleadoDTO.getFechaNacimiento());
-            if(edad<18){
+            if(edad<=18){
                 throw new NotUnderageException();
             }
     //CHEQUEO SI EXISTE EMPLEADO CON MISMO NRO DOCUMENTO

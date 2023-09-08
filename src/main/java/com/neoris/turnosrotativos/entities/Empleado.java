@@ -33,7 +33,6 @@ public class Empleado {
     @NotNull(message = "El Email no puede ser nulo")
     @NotBlank(message = "El Email no puede estar vacío")
     @Column(length =100,nullable = false)
-    @Email(message = "El formato de email es inválido")
     private String email;
 
     @NotNull(message = "La Fecha de Nacimiento no puede ser nula")

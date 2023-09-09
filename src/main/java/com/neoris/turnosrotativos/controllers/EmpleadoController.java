@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -23,6 +24,11 @@ public class EmpleadoController {
     public EmpleadoDTOResponse createEmpleado(@Valid @RequestBody EmpleadoDTO empleadoDTO){
         logger.info("LOGGEANDO en Controller FIRST empleadoDTO: "+ empleadoDTO);
         return empleadoService.createEmpleado(empleadoDTO);
+    }
+
+    @GetMapping
+    public List<EmpleadoDTOResponse> findAllEmpleados(){
+        return empleadoService.findAllEmpleados();
     }
 
 

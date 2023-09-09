@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.neoris.turnosrotativos.utils.EmailUtils.esEmailValido;
 import static com.neoris.turnosrotativos.utils.StringUtils.esCampoTextoValido;
@@ -81,5 +83,14 @@ public class EmpleadoServiceImpl implements EmpleadoService{
         EmpleadoDTOResponse empleadoDTOResponse= modelMapper.map(empleado, EmpleadoDTOResponse.class);
         logger.info("LOGGEANDO empleadoDTOResponse: (response)"+ empleadoDTOResponse.toString());
         return empleadoDTOResponse;
+    }
+
+    @Override
+    public List<EmpleadoDTOResponse> findAllEmpleados() {
+        List<Empleado> empleados = empleadoRepository.findAll();
+
+        return empleados.stream()
+                .map(empleado -> modelMapper.map(empleado, EmpleadoDTOResponse.class))
+                .collect(Collectors.toList());
     }
 }

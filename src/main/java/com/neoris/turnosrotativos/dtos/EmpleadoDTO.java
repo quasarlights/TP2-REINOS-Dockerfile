@@ -29,6 +29,16 @@ public class EmpleadoDTO {
     @Column(nullable = false)
     private LocalDate fechaIngreso;
 
+
+    public EmpleadoDTO(Long nroDocumento, String nombre, String apellido, String email, LocalDate fechaNacimiento, LocalDate fechaIngreso) {
+        this.nroDocumento = nroDocumento;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.email = email;
+        this.fechaNacimiento = fechaNacimiento;
+        this.fechaIngreso = fechaIngreso;
+    }
+
     public Long getNroDocumento() {
         return nroDocumento;
     }

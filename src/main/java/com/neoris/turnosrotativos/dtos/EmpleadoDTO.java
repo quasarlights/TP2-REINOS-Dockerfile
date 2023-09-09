@@ -1,21 +1,39 @@
 package com.neoris.turnosrotativos.dtos;
 
+import javax.persistence.Column;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class EmpleadoDTO {
-    private int nroDocumento;
+    @NotNull(message = "El nro. de Documento no puede ser nulo")
+    @Column(nullable = false)
+    private Long nroDocumento;
+    @NotNull(message = "El Nombre no puede ser nulo")
+    @NotBlank(message = "El Nombre no puede estar vacío")
+    @Column(length =100,nullable = false)
     private String nombre;
+    @NotNull(message = "El Apellido no puede ser nulo")
+    @NotBlank(message = "El Apellido no puede estar vacío")
+    @Column(length =100,nullable = false)
     private String apellido;
+    @NotNull(message = "El Email no puede ser nulo")
+    @NotBlank(message = "El Email no puede estar vacío")
+    @Column(length =100,nullable = false)
     private String email;
+    @NotNull(message = "La Fecha de Nacimiento no puede ser nula")
+    @Column(nullable = false)
     private LocalDate fechaNacimiento;
+    @NotNull(message = "La Fecha de Ingreso no puede ser nula")
+    @Column(nullable = false)
     private LocalDate fechaIngreso;
 
-    public int getNroDocumento() {
+    public Long getNroDocumento() {
         return nroDocumento;
     }
 
-    public void setNroDocumento(int nroDocumento) {
+    public void setNroDocumento(Long nroDocumento) {
         this.nroDocumento = nroDocumento;
     }
 
@@ -57,5 +75,17 @@ public class EmpleadoDTO {
 
     public void setFechaIngreso(LocalDate fechaIngreso) {
         this.fechaIngreso = fechaIngreso;
+    }
+
+    @Override
+    public String toString() {
+        return "EmpleadoDTO{" +
+                "nroDocumento=" + nroDocumento +
+                ", nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", email='" + email + '\'' +
+                ", fechaNacimiento=" + fechaNacimiento +
+                ", fechaIngreso=" + fechaIngreso +
+                '}';
     }
 }

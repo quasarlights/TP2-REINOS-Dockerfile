@@ -18,7 +18,7 @@ public class Empleado {
 
     @NotNull(message = "El nro. de Documento no puede ser nulo")
     @Column(nullable = false)
-    private int nroDocumento;
+    private Long nroDocumento;
 
     @NotNull(message = "El Nombre no puede ser nulo")
     @NotBlank(message = "El Nombre no puede estar vacío")
@@ -51,7 +51,7 @@ public class Empleado {
     public Empleado() {
     }
 
-    public Empleado(Long id, int nroDocumento, String nombre, String apellido, String email, LocalDate fechaNacimiento, LocalDate fechaIngreso) {
+    public Empleado(Long id, Long nroDocumento, String nombre, String apellido, String email, LocalDate fechaNacimiento, LocalDate fechaIngreso) {
         this.id = id;
         this.nroDocumento = nroDocumento;
         this.nombre = nombre;
@@ -70,11 +70,11 @@ public class Empleado {
         this.id = id;
     }
 
-    public int getNroDocumento() {
+    public Long getNroDocumento() {
         return nroDocumento;
     }
 
-    public void setNroDocumento(int nroDocumento) {
+    public void setNroDocumento(Long nroDocumento) {
         this.nroDocumento = nroDocumento;
     }
 

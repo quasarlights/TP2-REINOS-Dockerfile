@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 public class EmpleadoDTOResponse {
     private Long id;
-    private int nroDocumento;
+    private Long nroDocumento;
     private String nombre;
     private String apellido;
     private String email;
@@ -27,11 +27,11 @@ public class EmpleadoDTOResponse {
         this.id = id;
     }
 
-    public int getNroDocumento() {
+    public Long getNroDocumento() {
         return nroDocumento;
     }
 
-    public void setNroDocumento(int nroDocumento) {
+    public void setNroDocumento(Long nroDocumento) {
         this.nroDocumento = nroDocumento;
     }
 

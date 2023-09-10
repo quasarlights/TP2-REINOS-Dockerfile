@@ -103,4 +103,79 @@ public class EmpleadoServiceImpl implements EmpleadoService{
         EmpleadoDTOResponse empleadoDTOResponse= modelMapper.map(empleado, EmpleadoDTOResponse.class);
         return empleadoDTOResponse;
     }
+
+    @Override
+    public EmpleadoDTOResponse updateEmpleado(Long empleadoId, EmpleadoDTO empleadoDTO) {
+        Empleado empleadoExisting= empleadoRepository.findEmpleadoById(empleadoId);
+            if(empleadoExisting==null){
+                throw new NotFoundEmpleado(empleadoId);
+            }
+        Empleado empleadoUpdated= modelMapper.map(empleadoDTO, Empleado.class);
+        empleadoUpdated.setId(empleadoExisting.getId());
+        empleadoUpdated.setFechaCreacion(empleadoExisting.getFechaCreacion());
+
+        return update(empleadoUpdated);
+    }
+
+    @Transactional
+    public EmpleadoDTOResponse update(Empleado empleadoUpdate) {
+        logger.info("LOGGEANDO FIRST empleadoDTO: "+ empleadoUpdate);
+        //CHEQUEO QUE LA EDAD NO SEA MENOR A 18 AÑOS
+        int edad= DateUtils.calcularEdad(empleadoUpdate.getFechaNacimiento());
+        logger.info("LA EDAD ES: "+edad+" TIPO DE DATO"+  "**********************************");
+        if(edad<=18 && edad>=0){
+            throw new NotUnderageException();
+        }
+        //CHEQUEO SI EXISTE EMPLEADO CON MISMO NRO DOCUMENTO
+        Empleado empleadoByNroDocumento = empleadoRepository.findEmpleadoByNroDocumento(empleadoUpdate.getNroDocumento());
+        if (empleadoByNroDocumento != null && !empleadoByNroDocumento.getId().equals(empleadoUpdate.getId())) {
+            throw new SameNroDocumentoException();
+        }
+//        Empleado empleadoByNroDocumento= empleadoRepository.findEmpleadoByNroDocumento(empleadoUpdate.getNroDocumento());
+//        if (empleadoByNroDocumento !=null){
+//            throw new SameNroDocumentoException();
+//        }
+        //CHEQUEO SI EXISTE EMPLEADO CON MISMO EMAIL
+        Empleado empleadoByEmail = empleadoRepository.findEmpleadoByEmail(empleadoUpdate.getEmail());
+        if (empleadoByEmail != null && !empleadoByEmail.getId().equals(empleadoUpdate.getId())) {
+            throw new SameEmailException();
+        }
+//        Empleado empleadoByEmail= empleadoRepository.findEmpleadoByEmail(empleadoUpdate.getEmail());
+//        if (empleadoByEmail !=null){
+//            throw new SameEmailException();
+//        }
+        //CHEQUEO SI LA FECHA DE INGRESO ES POSTERIOR A LA DEL DIA
+        LocalDate fechaIngreso= empleadoUpdate.getFechaIngreso();
+        LocalDate hoy= LocalDate.now();
+        if (fechaIngreso.isAfter(hoy)){
+            throw new InvalidFechaIngresoException();
+        }
+        //CHEQUEO SI FECHA DE NACIMIENTO ES POSTERIOR A HOY
+        //LocalDate fechaNacimiento= empleadoDTO.getFechaNacimiento();
+        //if (fechaNacimiento.isAfter(hoy))
+        if(edad<0){
+            throw new InvalidFechaNacimientoException();
+        }
+        //CHEQUEO SI EL EMAIL TIENE FORMATO VALIDO
+        String email = empleadoUpdate.getEmail();
+        if (!esEmailValido(email)){
+            throw new InvalidEmailException();
+        }
+        //CHEQUEO QUE LOS CAMPOS STRING TENGAN SOLO LETRAS
+        String nombre = empleadoUpdate.getNombre();
+        String apellido = empleadoUpdate.getApellido();
+        if (!esCampoTextoValido(nombre)) {
+            throw new CampoInvalidoException("nombre");
+        }
+        if (!esCampoTextoValido(apellido)) {
+            throw new CampoInvalidoException("apellido");
+        }
+        //////////////////////////////////////////////////////
+        empleadoRepository.save(empleadoUpdate);
+        EmpleadoDTOResponse empleadoDTOResponse= modelMapper.map(empleadoUpdate, EmpleadoDTOResponse.class);
+        logger.info("LOGGEANDO empleadoDTOResponse: (response)"+ empleadoDTOResponse.toString());
+
+        return empleadoDTOResponse;
+    }
+
 }

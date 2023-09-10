@@ -19,6 +19,11 @@ public class EmpleadoDTOResponse {
     private LocalDate fechaIngreso;
     private LocalDateTime fechaCreacion;
 
+    public EmpleadoDTOResponse() {
+    }
+
+
+
     public Long getId() {
         return id;
     }

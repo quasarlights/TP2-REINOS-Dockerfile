@@ -11,4 +11,5 @@ public interface EmpleadoService {
     EmpleadoDTOResponse createEmpleado(EmpleadoDTO empleadoDTO);
     List<EmpleadoDTOResponse> findAllEmpleados();
     EmpleadoDTOResponse findEmpleadoById(Long empleadoId);
+    EmpleadoDTOResponse updateEmpleado(Long empleadoId, EmpleadoDTO empleadoDTO);
 }

@@ -36,5 +36,9 @@ public class EmpleadoController {
         return empleadoService.findEmpleadoById(empleadoId);
     }
 
-
+    @PutMapping("/{empleadoId}")
+    public EmpleadoDTOResponse updateEmpleado(@PathVariable Long empleadoId,
+                                              @Valid @RequestBody EmpleadoDTO empleadoDTO){
+        return empleadoService.updateEmpleado(empleadoId, empleadoDTO);
+    }
 }

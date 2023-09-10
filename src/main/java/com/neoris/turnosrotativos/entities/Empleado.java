@@ -61,6 +61,11 @@ public class Empleado {
         this.fechaIngreso = fechaIngreso;
     }
 
+    //METHODS
+    public String completeName(){
+        return this.nombre+" "+this.apellido;
+    }
+
     //GETTERS & SETTERS
     public Long getId() {
         return id;

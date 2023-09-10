@@ -17,7 +17,7 @@ public class EmpleadoDTOResponse {
     private String email;
     private LocalDate fechaNacimiento;
     private LocalDate fechaIngreso;
-    private LocalDateTime fechaCreacion;
+    private LocalDate fechaCreacion;
 
     public EmpleadoDTOResponse() {
     }
@@ -80,11 +80,11 @@ public class EmpleadoDTOResponse {
         this.fechaIngreso = fechaIngreso;
     }
 
-    public LocalDateTime getFechaCreacion() {
+    public LocalDate getFechaCreacion() {
         return fechaCreacion;
     }
 
-    public void setFechaCreacion(LocalDateTime fechaCreacion) {
+    public void setFechaCreacion(LocalDate fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
     }
 }

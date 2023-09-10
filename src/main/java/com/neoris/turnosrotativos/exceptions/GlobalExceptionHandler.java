@@ -119,4 +119,44 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(NullEmpleadoException.class)
+    public ResponseEntity<ErrorResponse> handleINullEmpleadoException(NullEmpleadoException ex){
+        logger.error("Se ha producido una NullEmpleadoException", ex);
+        ErrorResponse error= new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "No existe el empleado ingresado.",
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NullConceptoException.class)
+    public ResponseEntity<ErrorResponse> handleINullConceptoException(NullConceptoException ex){
+        logger.error("Se ha producido una NullConceptoException", ex);
+        ErrorResponse error= new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                "No existe el concepto ingresado.",
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RequiredHsTrabajadasExeption.class)
+    public ResponseEntity<ErrorResponse> handleRequiredHsTrabajadasExeption(RequiredHsTrabajadasExeption ex){
+        logger.error("Se ha producido una RequiredHsTrabajadasExeption", ex);
+        ErrorResponse error= new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "‘hsTrabajadas’ es obligatorio para el concepto ingresado.",
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(NotRequiredHsTrabajadas.class)
+    public ResponseEntity<ErrorResponse> handleNotRequiredHsTrabajadas(NotRequiredHsTrabajadas ex){
+        logger.error("Se ha producido una NotRequiredHsTrabajadas", ex);
+        ErrorResponse error= new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "El concepto ingresado no requiere el ingreso de ‘hsTrabajadas’.",
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 }

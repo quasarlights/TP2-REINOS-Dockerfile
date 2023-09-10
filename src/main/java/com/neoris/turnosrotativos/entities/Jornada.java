@@ -23,8 +23,6 @@ public class Jornada {
     @Column(nullable = false)
     private LocalDate fecha;
 
-    @NotNull(message = "Las horasTrabajadas no puede ser nulo")
-    @Column(nullable = false)
     private Integer horasTrabajadas;
 
     public Jornada() {

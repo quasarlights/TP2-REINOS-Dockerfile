@@ -14,8 +14,6 @@ public class JornadaDTO {
     @NotNull(message = "La fecha no puede ser nulo")
     @Column(nullable = false)
     private LocalDate fecha;
-    @NotNull(message = "Las horasTrabajadas no puede ser nulo")
-    @Column(nullable = false)
     private Integer horasTrabajadas;
 
     public JornadaDTO() {

@@ -10,4 +10,5 @@ import java.util.List;
 public interface EmpleadoService {
     EmpleadoDTOResponse createEmpleado(EmpleadoDTO empleadoDTO);
     List<EmpleadoDTOResponse> findAllEmpleados();
+    EmpleadoDTOResponse findEmpleadoById(Long empleadoId);
 }

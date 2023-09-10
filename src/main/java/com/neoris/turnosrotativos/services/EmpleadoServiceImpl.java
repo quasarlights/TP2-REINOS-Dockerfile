@@ -93,4 +93,14 @@ public class EmpleadoServiceImpl implements EmpleadoService{
                 .map(empleado -> modelMapper.map(empleado, EmpleadoDTOResponse.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public EmpleadoDTOResponse findEmpleadoById(Long empleadoId) {
+        Empleado empleado = empleadoRepository.findEmpleadoById(empleadoId);
+            if(empleado == null){
+                throw new NotFoundEmpleado(empleadoId);
+            }
+        EmpleadoDTOResponse empleadoDTOResponse= modelMapper.map(empleado, EmpleadoDTOResponse.class);
+        return empleadoDTOResponse;
+    }
 }

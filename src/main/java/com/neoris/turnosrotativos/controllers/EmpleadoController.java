@@ -31,5 +31,10 @@ public class EmpleadoController {
         return empleadoService.findAllEmpleados();
     }
 
+    @GetMapping("/{empleadoId}")
+    public EmpleadoDTOResponse findEmpleadoById(@PathVariable Long empleadoId){
+        return empleadoService.findEmpleadoById(empleadoId);
+    }
+
 
 }

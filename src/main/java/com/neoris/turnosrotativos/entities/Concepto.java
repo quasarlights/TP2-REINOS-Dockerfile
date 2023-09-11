@@ -1,9 +1,11 @@
 package com.neoris.turnosrotativos.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "conceptos")
 public class Concepto {
@@ -15,6 +17,12 @@ public class Concepto {
     private Boolean laborable;
     private Integer hsMinimo;
     private Integer hsMaximo;
+
+    @OneToMany(mappedBy = "concepto", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference
+    @JsonIgnore
+    private List<Jornada> jornadas = new ArrayList<>();
+
 
     public Integer getId() {
         return id;
@@ -54,5 +62,17 @@ public class Concepto {
 
     public void setHsMaximo(Integer hsMaximo) {
         this.hsMaximo = hsMaximo;
+    }
+
+    @Override
+    public String toString() {
+        return "Concepto{" +
+                "id=" + id +
+                ", nombre='" + nombre + '\'' +
+                ", laborable=" + laborable +
+                ", hsMinimo=" + hsMinimo +
+                ", hsMaximo=" + hsMaximo +
+                ", jornadas=" + jornadas +
+                '}';
     }
 }

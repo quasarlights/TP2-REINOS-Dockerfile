@@ -1,5 +1,7 @@
 package com.neoris.turnosrotativos.dtos;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.time.LocalDate;
 
 public class JornadaDTOResponse {
@@ -8,6 +10,7 @@ public class JornadaDTOResponse {
     private String nombreCompleto;
     private LocalDate fecha;
     private String concepto;
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer hsTrabajadas;
 
     public JornadaDTOResponse() {

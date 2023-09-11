@@ -1,5 +1,7 @@
 package com.neoris.turnosrotativos.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
@@ -8,6 +10,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "empleados")
@@ -47,6 +51,10 @@ public class Empleado {
     @CreationTimestamp
     private LocalDateTime fechaCreacion;
 
+    @OneToMany(mappedBy = "empleado", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+    @JsonManagedReference
+    @JsonIgnore
+    private List<Jornada> jornadas = new ArrayList<>();
     //CONSTRUCTORS
     public Empleado() {
     }

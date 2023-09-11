@@ -10,12 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
 public class JornadaMapper0 {
-
+    @Autowired
+    EmpleadoRepository empleadoRepository;
+    @Autowired
+    ConceptoRepository conceptoRepository;
     public Jornada dtoToJornada(JornadaDTO jornadaDTO){
         Jornada jornada= new Jornada();
 
-        jornada.setIdEmpleado(jornadaDTO.getIdEmpleado());
-        jornada.setIdConcepto(jornadaDTO.getIdConcepto());
+        jornada.setEmpleado(empleadoRepository.findEmpleadoById(jornadaDTO.getIdEmpleado()));
+        jornada.setConcepto(conceptoRepository.findConceptoById(jornadaDTO.getIdConcepto()));
         jornada.setFecha(jornadaDTO.getFecha());
         jornada.setHorasTrabajadas(jornadaDTO.getHorasTrabajadas());
 

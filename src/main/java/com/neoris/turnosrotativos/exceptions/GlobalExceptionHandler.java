@@ -159,4 +159,15 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    //InvalidHoursRangeException
+    @ExceptionHandler(InvalidHoursRangeException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidHoursRangeException(InvalidHoursRangeException ex) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                ex.getMessage(),
+                System.currentTimeMillis()
+        );
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 }

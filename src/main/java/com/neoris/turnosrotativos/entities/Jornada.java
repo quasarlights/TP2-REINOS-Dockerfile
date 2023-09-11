@@ -1,5 +1,8 @@
 package com.neoris.turnosrotativos.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -12,12 +15,18 @@ public class Jornada {
     private Long idJornada;
 
     @NotNull(message = "El idEmpleado no puede ser nulo")
-    @Column(nullable = false)
-    private Long idEmpleado;
+    @ManyToOne
+    @JoinColumn(name = "idEmpleado")
+    @JsonManagedReference
+    @JsonIgnore
+    private Empleado empleado;
 
     @NotNull(message = "El idConcepto no puede ser nulo")
-    @Column(nullable = false)
-    private Integer idConcepto;
+    @ManyToOne
+    @JoinColumn(name = "idConcepto")
+    @JsonManagedReference
+    @JsonIgnore
+    private Concepto concepto;
 
     @NotNull(message = "La fecha no puede ser nulo")
     @Column(nullable = false)
@@ -28,10 +37,10 @@ public class Jornada {
     public Jornada() {
     }
 
-    public Jornada(Long idJornada, Long idEmpleado, Integer idConcepto, LocalDate fecha, Integer horasTrabajadas) {
+    public Jornada(Long idJornada, Empleado empleado, Concepto concepto, LocalDate fecha, Integer horasTrabajadas) {
         this.idJornada = idJornada;
-        this.idEmpleado = idEmpleado;
-        this.idConcepto = idConcepto;
+        this.empleado = empleado;
+        this.concepto = concepto;
         this.fecha = fecha;
         this.horasTrabajadas = horasTrabajadas;
     }
@@ -44,20 +53,20 @@ public class Jornada {
         this.idJornada = idJornada;
     }
 
-    public Long getIdEmpleado() {
-        return idEmpleado;
+    public Empleado getEmpleado() {
+        return empleado;
     }
 
-    public void setIdEmpleado(Long idEmpleado) {
-        this.idEmpleado = idEmpleado;
+    public void setEmpleado(Empleado empleado) {
+        this.empleado = empleado;
     }
 
-    public Integer getIdConcepto() {
-        return idConcepto;
+    public Concepto getConcepto() {
+        return concepto;
     }
 
-    public void setIdConcepto(Integer idConcepto) {
-        this.idConcepto = idConcepto;
+    public void setConcepto(Concepto concepto) {
+        this.concepto = concepto;
     }
 
     public LocalDate getFecha() {
@@ -79,9 +88,9 @@ public class Jornada {
     @Override
     public String toString() {
         return "Jornada{" +
-                "id=" + idJornada +
-                ", idEmpleado=" + idEmpleado +
-                ", idConcepto=" + idConcepto +
+                "idJornada=" + idJornada +
+                //", empleado=" + empleado +
+                //", concepto=" + concepto +
                 ", fecha=" + fecha +
                 ", horasTrabajadas=" + horasTrabajadas +
                 '}';

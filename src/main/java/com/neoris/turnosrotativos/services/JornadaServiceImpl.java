@@ -60,7 +60,11 @@ public class JornadaServiceImpl implements JornadaService{
         if (jornadaDTO.getHorasTrabajadas() != null && (nombreConcepto.equals("Turno Normal") || nombreConcepto.equals("Turno Extra"))) {
             jornadaValidator.validateRange(jornadaDTO, existingConcepto);
         }
+        //REGLAS DE NEGOCIO/////////////////////////////////////////////////////////
         jornadaValidator.checkDiaLibre(jornadaDTO);
+        jornadaValidator.checkConceptoDuplicado(jornadaDTO);
+        jornadaValidator.checkMaxHsTrabajadasEnUnDia(jornadaDTO);
+        jornadaValidator.checkDiaLibreConOtrosTurnos(jornadaDTO);
 
         Empleado empleadoToSave= empleadoRepository.findEmpleadoById(jornadaDTO.getIdEmpleado());
         Concepto conceptoToSave= conceptoRepository.findConceptoById(jornadaDTO.getIdConcepto());

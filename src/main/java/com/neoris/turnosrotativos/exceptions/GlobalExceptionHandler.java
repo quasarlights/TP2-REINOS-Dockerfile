@@ -170,4 +170,49 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    //NotSameDiaLibreException
+    @ExceptionHandler(NotSameDiaLibreException.class)
+    public ResponseEntity<ErrorResponse> handleNotSameDiaLibreException(NotSameDiaLibreException ex){
+        logger.error("Se ha producido una NotSameDiaLibreException", ex);
+        ErrorResponse error= new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "El empleado ingresado cuenta con un día libre en esa fecha.",
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    //DuplicateConceptoException
+    @ExceptionHandler(DuplicateConceptoException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateConceptoException(DuplicateConceptoException ex){
+        logger.error("Se ha producido una DuplicateConceptoException", ex);
+        ErrorResponse error= new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "El empleado ya tiene registrado una jornada con este concepto en la fecha ingresada.",
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    //MaxHsTrabajadasDiaException
+    @ExceptionHandler(MaxHsTrabajadasDiaException.class)
+    public ResponseEntity<ErrorResponse> handleMaxHsTrabajadasDiaException(MaxHsTrabajadasDiaException ex){
+        logger.error("Se ha producido una MaxHsTrabajadasDiaException", ex);
+        ErrorResponse error= new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "El empleado no puede cargar más de 12 horas trabajadas en un día.",
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    //DiaLibreVsTurnosCargadosException
+    @ExceptionHandler(DiaLibreVsTurnosCargadosException.class)
+    public ResponseEntity<ErrorResponse> handleDiaLibreVsTurnosCargadosException(DiaLibreVsTurnosCargadosException ex){
+        logger.error("Se ha producido una DiaLibreVsTurnosCargadosException", ex);
+        ErrorResponse error= new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "El empleado no puede cargar Dia Libre si cargo un turno previamente para la fecha ingresada.",
+
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 }

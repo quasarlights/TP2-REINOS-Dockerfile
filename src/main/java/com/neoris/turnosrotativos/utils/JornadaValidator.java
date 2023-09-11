@@ -3,9 +3,7 @@ package com.neoris.turnosrotativos.utils;
 import com.neoris.turnosrotativos.dtos.JornadaDTO;
 import com.neoris.turnosrotativos.entities.Concepto;
 import com.neoris.turnosrotativos.entities.Jornada;
-import com.neoris.turnosrotativos.exceptions.InvalidHoursRangeException;
-import com.neoris.turnosrotativos.exceptions.NotRequiredHsTrabajadas;
-import com.neoris.turnosrotativos.exceptions.NullConceptoException;
+import com.neoris.turnosrotativos.exceptions.*;
 import com.neoris.turnosrotativos.repositories.ConceptoRepository;
 import com.neoris.turnosrotativos.repositories.JornadaRepository;
 import com.neoris.turnosrotativos.services.EmpleadoServiceImpl;
@@ -15,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class JornadaValidator {
@@ -45,11 +44,55 @@ public class JornadaValidator {
             String diaLibre= "Dia Libre";
             String conceptoNombre= jornadaExistente.getConcepto().getNombre();
             if (diaLibre.equals(conceptoNombre)) {
-                throw new RuntimeException("El empleado ingresado cuenta con un día libre en esa fecha.");
+                throw new NotSameDiaLibreException();
             }
             logger.info(conceptoNombre);
             logger.info("checkDiaLibre: " + jornadasExistentes + "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
         }
     }
+
+    public void checkConceptoDuplicado(JornadaDTO jornadaDTO){
+        Optional<Jornada> jornadaExistente = jornadaRepository.findJornadaByEmpleadoFechaAndConcepto(
+                jornadaDTO.getIdEmpleado(),
+                jornadaDTO.getFecha(),
+                jornadaDTO.getIdConcepto());
+
+        if (jornadaExistente.isPresent()) {
+            throw new DuplicateConceptoException();
+        }
+    }
+
+    public void checkMaxHsTrabajadasEnUnDia(JornadaDTO jornadaDTO){
+        List<Jornada> jornadasDelDia = jornadaRepository.findJornadasByEmpleadoAndFecha(
+                jornadaDTO.getIdEmpleado(),
+                jornadaDTO.getFecha());
+        int totalHoras = jornadaDTO.getHorasTrabajadas() != null ? jornadaDTO.getHorasTrabajadas() : 0;
+
+        for (Jornada jornadaExistente : jornadasDelDia) {
+            if ("Turno Normal".equals(jornadaExistente.getConcepto().getNombre()) ||
+                    "Turno Extra".equals(jornadaExistente.getConcepto().getNombre())) {
+                totalHoras += jornadaExistente.getHorasTrabajadas() != null ? jornadaExistente.getHorasTrabajadas() : 0;
+            }
+        }
+        if (totalHoras > 12) {
+            throw new MaxHsTrabajadasDiaException();
+        }
+    }
+
+    public void checkDiaLibreConOtrosTurnos(JornadaDTO jornadaDTO){
+        List<Jornada> jornadasDelDia = jornadaRepository.findJornadasByEmpleadoAndFecha(
+                jornadaDTO.getIdEmpleado(),
+                jornadaDTO.getFecha());
+
+        if ("Dia Libre".equals(conceptoRepository.findConceptoById(jornadaDTO.getIdConcepto()).getNombre()) && !jornadasDelDia.isEmpty()) {
+            for (Jornada jornadaExistente : jornadasDelDia) {
+                if (!"Dia Libre".equals(jornadaExistente.getConcepto().getNombre())) {
+                    throw new DiaLibreVsTurnosCargadosException();
+                }
+            }
+        }
+    }
+
+
 
 }

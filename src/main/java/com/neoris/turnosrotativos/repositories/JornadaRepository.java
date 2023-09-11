@@ -1,5 +1,7 @@
 package com.neoris.turnosrotativos.repositories;
 
+import com.neoris.turnosrotativos.dtos.JornadaDTO;
+import com.neoris.turnosrotativos.dtos.JornadaDTOResponse;
 import com.neoris.turnosrotativos.entities.Jornada;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,5 +25,9 @@ public interface JornadaRepository extends JpaRepository<Jornada, Long> {
     List<Jornada> findJornadasByEmpleadoAndWeek(@Param("empleadoId") Long empleadoId,
                                                 @Param("startDate") LocalDate startDate,
                                                 @Param("endDate") LocalDate endDate);
+
+    List<Jornada> findByEmpleado_NroDocumento(Long nroDocumento);
+    List<Jornada> findByFecha(LocalDate fecha);
+    List<Jornada> findByEmpleado_NroDocumentoAndFecha(Long nroDocumento, LocalDate fecha);
 
 }

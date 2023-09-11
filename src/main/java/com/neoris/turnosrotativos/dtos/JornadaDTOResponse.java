@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import java.time.LocalDate;
 
 public class JornadaDTOResponse {
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Long idJornada;
     private Long nroDocumento;
     private String nombreCompleto;

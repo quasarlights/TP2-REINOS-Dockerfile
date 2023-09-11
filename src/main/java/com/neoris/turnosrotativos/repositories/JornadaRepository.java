@@ -19,5 +19,9 @@ public interface JornadaRepository extends JpaRepository<Jornada, Long> {
                                                             @Param("fecha") LocalDate fecha,
                                                             @Param("conceptoId") Integer conceptoId);
 
+    @Query("SELECT j FROM Jornada j WHERE j.empleado.id = :empleadoId AND j.fecha BETWEEN :startDate AND :endDate")
+    List<Jornada> findJornadasByEmpleadoAndWeek(@Param("empleadoId") Long empleadoId,
+                                                @Param("startDate") LocalDate startDate,
+                                                @Param("endDate") LocalDate endDate);
 
 }

@@ -215,4 +215,52 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    //MaxHorasSemanalesExceptions
+    @ExceptionHandler(MaxHorasSemanalesExceptions.class)
+    public ResponseEntity<ErrorResponse> handleMaxHorasSemanalesExceptions(MaxHorasSemanalesExceptions ex) {
+        logger.error("Se ha producido una MaxHorasSemanalesExceptions", ex);
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "El empleado ingresado supera las 48 horas semanales.",
+
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    //MaxExtraTurnsExceptions
+    @ExceptionHandler(MaxExtraTurnsExceptions.class)
+    public ResponseEntity<ErrorResponse> handleMaxExtraTurnsExceptions(MaxExtraTurnsExceptions ex) {
+        logger.error("Se ha producido una MaxExtraTurnsExceptions", ex);
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "El empleado ingresado ya cuenta con 3 turnos extra esta semana.",
+
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    //MaxNormalTurnsExceptions
+    @ExceptionHandler(MaxNormalTurnsExceptions.class)
+    public ResponseEntity<ErrorResponse> handleMaxNormalTurnsExceptions(MaxNormalTurnsExceptions ex) {
+        logger.error("Se ha producido una MaxNormalTurnsExceptions", ex);
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "El empleado ingresado ya cuenta con 5 turnos normales esta semana.",
+
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    //MaxDiaLibreException
+    @ExceptionHandler(MaxDiaLibreException.class)
+    public ResponseEntity<ErrorResponse> handleMaxDiaLibreException(MaxDiaLibreException ex) {
+        logger.error("Se ha producido una MaxDiaLibreException", ex);
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "El empleado no cuenta con más días libres esta semana.",
+
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
 }

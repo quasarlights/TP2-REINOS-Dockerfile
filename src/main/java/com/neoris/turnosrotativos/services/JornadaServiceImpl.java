@@ -65,6 +65,10 @@ public class JornadaServiceImpl implements JornadaService{
         jornadaValidator.checkConceptoDuplicado(jornadaDTO);
         jornadaValidator.checkMaxHsTrabajadasEnUnDia(jornadaDTO);
         jornadaValidator.checkDiaLibreConOtrosTurnos(jornadaDTO);
+        jornadaValidator.checkMaxHorasSemanales(jornadaDTO);
+        jornadaValidator.checkMaxExtraTurnsPerWeek(jornadaDTO);
+        jornadaValidator.checkMaxNormalTurnsPerWeek(jornadaDTO);
+        jornadaValidator.checkMaxDiaLibrePerWeek(jornadaDTO);
 
         Empleado empleadoToSave= empleadoRepository.findEmpleadoById(jornadaDTO.getIdEmpleado());
         Concepto conceptoToSave= conceptoRepository.findConceptoById(jornadaDTO.getIdConcepto());

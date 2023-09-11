@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -93,6 +95,68 @@ public class JornadaValidator {
         }
     }
 
+    public void checkMaxHorasSemanales(JornadaDTO jornadaDTO) {
+        LocalDate fechaIngresada = jornadaDTO.getFecha();
+        LocalDate startOfWeek = fechaIngresada.with(DayOfWeek.MONDAY);
+        LocalDate endOfWeek = fechaIngresada.with(DayOfWeek.SUNDAY);
+
+        List<Jornada> jornadasDeLaSemana = jornadaRepository.findJornadasByEmpleadoAndWeek(
+                jornadaDTO.getIdEmpleado(), startOfWeek, endOfWeek);
+
+        int totalHorasSemanales = jornadasDeLaSemana.stream()
+                .mapToInt(j -> j.getHorasTrabajadas() != null ? j.getHorasTrabajadas() : 0)
+                .sum();
+        totalHorasSemanales += (jornadaDTO.getHorasTrabajadas() != null ? jornadaDTO.getHorasTrabajadas() : 0);
+
+        if (totalHorasSemanales > 48) {
+            throw new MaxHorasSemanalesExceptions();
+        }
+    }
+
+    public void checkMaxExtraTurnsPerWeek(JornadaDTO jornadaDTO) {
+        LocalDate startDateOfWeek = jornadaDTO.getFecha().with(DayOfWeek.MONDAY);
+        LocalDate endDateOfWeek = jornadaDTO.getFecha().with(DayOfWeek.SUNDAY);
+
+        List<Jornada> jornadasThisWeek = jornadaRepository.findJornadasByEmpleadoAndWeek(
+                jornadaDTO.getIdEmpleado(), startDateOfWeek, endDateOfWeek);
+
+            long countExtraTurns = jornadasThisWeek.stream()
+                    .filter(j -> "Turno Extra".equals(j.getConcepto().getNombre()))
+                    .count();
+
+        if (countExtraTurns >= 3) {
+            throw new MaxExtraTurnsExceptions();
+        }
+    }
+    public void checkMaxNormalTurnsPerWeek(JornadaDTO jornadaDTO) {
+        LocalDate startDateOfWeek = jornadaDTO.getFecha().with(DayOfWeek.MONDAY);
+        LocalDate endDateOfWeek = jornadaDTO.getFecha().with(DayOfWeek.SUNDAY);
+        List<Jornada> jornadasThisWeek = jornadaRepository.findJornadasByEmpleadoAndWeek(
+                jornadaDTO.getIdEmpleado(), startDateOfWeek, endDateOfWeek);
+
+        long countNormalTurns = jornadasThisWeek.stream()
+                .filter(j -> "Turno Normal".equals(j.getConcepto().getNombre()))
+                .count();
+
+        if (countNormalTurns >= 5) {
+            throw new MaxNormalTurnsExceptions();
+        }
+    }
+
+    public void checkMaxDiaLibrePerWeek(JornadaDTO jornadaDTO) {
+        LocalDate startDateOfWeek = jornadaDTO.getFecha().with(DayOfWeek.MONDAY);
+        LocalDate endDateOfWeek = jornadaDTO.getFecha().with(DayOfWeek.SUNDAY);
+        List<Jornada> jornadasThisWeek = jornadaRepository.findJornadasByEmpleadoAndWeek(
+                jornadaDTO.getIdEmpleado(), startDateOfWeek, endDateOfWeek);
+
+        long countFreeDays = jornadasThisWeek.stream()
+                .filter(j -> "Dia Libre".equals(j.getConcepto().getNombre()))
+                .count();
+
+        if (countFreeDays >= 2) {
+            throw new MaxDiaLibreException();
+        }
+    }
 
 
 }

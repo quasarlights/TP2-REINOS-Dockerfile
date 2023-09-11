@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -176,6 +177,15 @@ public class EmpleadoServiceImpl implements EmpleadoService{
         logger.info("LOGGEANDO empleadoDTOResponse: (response)"+ empleadoDTOResponse.toString());
 
         return empleadoDTOResponse;
+    }
+
+    public void deleteEmpleadoById(Long idEmpleado){
+        try {
+            empleadoRepository.deleteById(idEmpleado);
+        }catch (Exception e){
+            throw  new DeleteEmpleadoException(idEmpleado);
+        }
+
     }
 
 }

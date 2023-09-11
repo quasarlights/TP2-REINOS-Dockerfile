@@ -12,4 +12,5 @@ public interface EmpleadoService {
     List<EmpleadoDTOResponse> findAllEmpleados();
     EmpleadoDTOResponse findEmpleadoById(Long empleadoId);
     EmpleadoDTOResponse updateEmpleado(Long empleadoId, EmpleadoDTO empleadoDTO);
+    void deleteEmpleadoById(Long idEmpleado);
 }

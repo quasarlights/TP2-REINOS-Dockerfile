@@ -263,4 +263,16 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
+    //DeleteEmpleadoException
+    @ExceptionHandler(DeleteEmpleadoException.class)
+    public ResponseEntity<ErrorResponse> handleDeleteEmpleadoException(DeleteEmpleadoException ex) {
+        logger.error("Se ha producido una DeleteEmpleadoException", ex);
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),
+                ex.getMessage(),
+
+                System.currentTimeMillis());
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
 }

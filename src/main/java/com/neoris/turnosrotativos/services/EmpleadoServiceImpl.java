@@ -37,8 +37,9 @@ public class EmpleadoServiceImpl implements EmpleadoService{
     logger.info("LOGGEANDO FIRST empleadoDTO: "+ empleadoDTO);
     //CHEQUEO QUE LA EDAD NO SEA MENOR A 18 AÑOS
         int edad= DateUtils.calcularEdad(empleadoDTO.getFechaNacimiento());
+        boolean edad1= DateUtils.calcularEdad1(empleadoDTO.getFechaNacimiento());
     logger.info("LA EDAD ES: "+edad+" TIPO DE DATO"+  "**********************************");
-            if(edad<=18 && edad>=0){
+            if(!edad1){
                 throw new NotUnderageException();
             }
     //CHEQUEO SI EXISTE EMPLEADO CON MISMO NRO DOCUMENTO
@@ -122,9 +123,9 @@ public class EmpleadoServiceImpl implements EmpleadoService{
     public EmpleadoDTOResponse update(Empleado empleadoUpdate) {
         logger.info("LOGGEANDO FIRST empleadoDTO: "+ empleadoUpdate);
         //CHEQUEO QUE LA EDAD NO SEA MENOR A 18 AÑOS
-        int edad= DateUtils.calcularEdad(empleadoUpdate.getFechaNacimiento());
+        boolean edad= DateUtils.calcularEdad1(empleadoUpdate.getFechaNacimiento());
         logger.info("LA EDAD ES: "+edad+" TIPO DE DATO"+  "**********************************");
-        if(edad<=18 && edad>=0){
+        if(!edad){
             throw new NotUnderageException();
         }
         //CHEQUEO SI EXISTE EMPLEADO CON MISMO NRO DOCUMENTO
@@ -154,9 +155,10 @@ public class EmpleadoServiceImpl implements EmpleadoService{
         //CHEQUEO SI FECHA DE NACIMIENTO ES POSTERIOR A HOY
         //LocalDate fechaNacimiento= empleadoDTO.getFechaNacimiento();
         //if (fechaNacimiento.isAfter(hoy))
-        if(edad<0){
-            throw new InvalidFechaNacimientoException();
-        }
+        /*++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        if(edad<0){                                            +
+            throw new InvalidFechaNacimientoException();       +
+        }+++++++++++++++++++++++++++++++++++++++++++++++++++++*/
         //CHEQUEO SI EL EMAIL TIENE FORMATO VALIDO
         String email = empleadoUpdate.getEmail();
         if (!esEmailValido(email)){

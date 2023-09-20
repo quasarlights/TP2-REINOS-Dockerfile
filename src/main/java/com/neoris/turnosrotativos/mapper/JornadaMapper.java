@@ -8,7 +8,7 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring", uses = { EmpleadoRepository.class, ConceptoRepository.class })
 public interface JornadaMapper {
-
+/*
     @Mapping(target = "idJornada", source = "idJornada")
     @Mapping(target = "nroDocumento", expression = "java(empleadoRepository.findEmpleadoById(jornada.getIdEmpleado()).getNroDocumento())")
     @Mapping(target = "nombreCompleto", expression = "java(empleadoRepository.findEmpleadoById(jornada.getIdEmpleado()).completeName())")
@@ -16,4 +16,5 @@ public interface JornadaMapper {
     @Mapping(target = "concepto", expression = "java(conceptoRepository.findConceptoById(jornada.getIdConcepto()).getNombre())")
     @Mapping(target = "hsTrabajadas", source = "horasTrabajadas")
     JornadaDTOResponse toDtoResponse(Jornada jornada, @Context EmpleadoRepository empleadoRepository, @Context ConceptoRepository conceptoRepository);
+*/
 }

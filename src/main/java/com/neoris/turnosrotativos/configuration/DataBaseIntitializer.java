@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+/*
 @Component
 public class DataBaseIntitializer implements CommandLineRunner {
     @Autowired
@@ -35,3 +36,5 @@ public class DataBaseIntitializer implements CommandLineRunner {
         empleadoDTOS.forEach(empleadoDTO -> empleadoService.createEmpleado(empleadoDTO));
     }
 }
+*/
+
